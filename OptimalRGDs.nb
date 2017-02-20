@@ -1,0 +1,2442 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[    116497,       2433]
+NotebookOptionsPosition[    116235,       2419]
+NotebookOutlinePosition[    116593,       2435]
+CellTagsIndexPosition[    116550,       2432]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  StyleBox["\[IndentingNewLine]", "Input"], 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     StyleBox["wdir", "Input"], 
+     StyleBox["=", "Input"], 
+     "\"\<~/Documents/MyPapers/OptimalRGDS/Programs and Data/Data/\>\""}], 
+    ";"}], "\[IndentingNewLine]", 
+   StyleBox["\[IndentingNewLine]", "Input"], 
+   StyleBox["\[IndentingNewLine]", "Input"], 
+   RowBox[{
+    RowBox[{"GetValuesFrom", "[", 
+     RowBox[{
+     "v_", ",", "degree_", ",", "startgraphnumber_", ",", "sectioned_"}], 
+     "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "$path", ",", " ", "dir", ",", " ", "dir2", " ", ",", "file", ",", 
+        "filename", ",", "GraphDvalues", ",", "strGraphs", ",", "block", ",", 
+        "adjamatrix", ",", "adjacencylist", ",", "tmp", ",", "list", ",", 
+        "InfoMatrix", ",", "Pol", ",", "Coeffpol", ",", "Dvalue", ",", 
+        "endgraphnumber"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"$path", "=", "wdir"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SetDirectory", "[", "$path", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"v", "<", "10"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"filename", "=", 
+           RowBox[{
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "3", "]"}], "<>", "\"\<.asc\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"file", "=", 
+           RowBox[{"$path", "<>", "filename"}]}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"filename", "=", 
+           RowBox[{
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "3", "]"}], "<>", "\"\<.asc\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"file", "=", 
+           RowBox[{"$path", "<>", "filename"}]}], ";"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"FileExistsQ", "[", "file", "]"}], ",", 
+         RowBox[{
+          RowBox[{"Print", "[", "\"\<file exists\>\"", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"!", 
+             RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"CreateDirectory", "[", "dir", "]"}], ";"}]}], 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"SetDirectory", "[", "dir", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"CopyFile", "[", 
+           RowBox[{"file", ",", 
+            RowBox[{"dir", "<>", "filename"}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"graphnumber", "=", "startgraphnumber"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"GraphDvalues", "=", 
+           RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"strGraphs", "=", 
+           RowBox[{"OpenRead", "[", "file", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"graphnumber", ">", "1"}], "||", 
+             RowBox[{"sectioned", "\[Equal]", "1"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Find", "[", 
+              RowBox[{"strGraphs", ",", 
+               RowBox[{"\"\<Graph \>\"", "<>", 
+                RowBox[{"ToString", "[", 
+                 RowBox[{"startgraphnumber", "-", "1"}], "]"}], "<>", 
+                "\"\<:\>\""}]}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"endgraphnumber", "=", 
+              RowBox[{"startgraphnumber", "+", "500000"}]}]}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          RowBox[{"block", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"list", "=", 
+           RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"While", "[", 
+           RowBox[{
+            RowBox[{"block", "\[NotEqual]", "\"\<Graph\>\""}], ",", 
+            RowBox[{"block", "=", 
+             RowBox[{"Read", "[", 
+              RowBox[{"strGraphs", ",", "Word"}], "]"}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"While", "[", 
+           RowBox[{
+            RowBox[{"block", "\[NotEqual]", "\"\<EndOfFile\>\""}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"adjamatrix", "=", 
+              RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"block", "\[Equal]", "\"\<Graph\>\""}], ",", 
+               RowBox[{
+                RowBox[{"adjacencylist", "=", 
+                 RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"For", "[", 
+                 RowBox[{
+                  RowBox[{"j", "=", "1"}], ",", 
+                  RowBox[{"j", "<", 
+                   RowBox[{"v", "+", "1"}]}], ",", 
+                  RowBox[{"j", "++"}], ",", 
+                  RowBox[{
+                   RowBox[{"tmp", "=", 
+                    RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"While", "[", 
+                    RowBox[{
+                    RowBox[{"block", "\[NotEqual]", "\"\<:\>\""}], ",", 
+                    RowBox[{
+                    RowBox[{"block", "=", 
+                    RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";"}]}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"i", "=", "1"}], ",", 
+                    RowBox[{"i", "<", 
+                    RowBox[{"degree", "+", "1"}]}], ",", 
+                    RowBox[{"i", "++"}], ",", 
+                    RowBox[{
+                    RowBox[{"block", "=", 
+                    RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"tmp", ",", "block"}], "]"}], ";"}]}], "]"}], ";",
+                    "\[IndentingNewLine]", 
+                   RowBox[{"AppendTo", "[", 
+                    RowBox[{"adjacencylist", ",", "tmp"}], "]"}], ";"}]}], 
+                 "]"}], ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"For", "[", 
+              RowBox[{
+               RowBox[{"i", "=", "1"}], ",", 
+               RowBox[{"i", "<", 
+                RowBox[{"v", "+", "1"}]}], ",", 
+               RowBox[{"i", "++"}], ",", 
+               RowBox[{
+                RowBox[{"AppendTo", "[", 
+                 RowBox[{"adjamatrix", ",", 
+                  RowBox[{"{", "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"For", "[", 
+                 RowBox[{
+                  RowBox[{"j", "=", "1"}], ",", 
+                  RowBox[{"j", "<", 
+                   RowBox[{"v", "+", "1"}]}], ",", 
+                  RowBox[{"j", "++"}], ",", 
+                  RowBox[{
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{
+                    RowBox[{"adjacencylist", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"ToString", "[", "j", "]"}]}], "]"}], ")"}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{
+                    RowBox[{"adjamatrix", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "1"}], "]"}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{
+                    RowBox[{"adjamatrix", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "0"}], "]"}]}], 
+                    "]"}], ";"}]}], "]"}], ";"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"InfoMatrix", "[", "y_", "]"}], ":=", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"(", 
+                  RowBox[{"degree", "+", 
+                   RowBox[{"y", "*", 
+                    RowBox[{"(", "v", ")"}]}]}], ")"}], ")"}], "*", 
+                RowBox[{"IdentityMatrix", "[", "v", "]"}]}], "-", 
+               "adjamatrix", "-", 
+               RowBox[{
+                RowBox[{"(", "y", ")"}], "*", 
+                RowBox[{"ConstantArray", "[", 
+                 RowBox[{"1", ",", 
+                  RowBox[{"{", 
+                   RowBox[{"v", ",", "v"}], "}"}]}], "]"}]}]}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"Pol", "[", "y_", "]"}], ":=", 
+              RowBox[{"CharacteristicPolynomial", "[", 
+               RowBox[{
+                RowBox[{"InfoMatrix", "[", "y", "]"}], ",", "z"}], "]"}]}], 
+             ";", "\[IndentingNewLine]", 
+             RowBox[{"Coeffpol", "=", 
+              RowBox[{
+               RowBox[{"CoefficientList", "[", 
+                RowBox[{
+                 RowBox[{"Pol", "[", "y", "]"}], ",", "z"}], "]"}], "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Dvalue", "=", 
+              RowBox[{"CoefficientList", "[", 
+               RowBox[{"Coeffpol", ",", "y"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"AppendTo", "[", 
+              RowBox[{"GraphDvalues", ",", 
+               RowBox[{"{", 
+                RowBox[{"graphnumber", ",", 
+                 RowBox[{"Abs", "[", "Dvalue", "]"}]}], "}"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"ClearAll", "[", "adjacencylist", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"ClearAll", "[", "adjamatrix", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"ClearAll", "[", "InfoMatrix", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"graphnumber", "=", 
+              RowBox[{"graphnumber", "+", "1"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"sectioned", "\[Equal]", "1"}], " ", "&&", 
+                RowBox[{"graphnumber", ">", "endgraphnumber"}]}], ",", 
+               RowBox[{
+                RowBox[{"Break", "[", "]"}], ";"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"While", "[", 
+              RowBox[{
+               RowBox[{"block", "\[NotEqual]", "\"\<Graph\>\""}], ",", 
+               RowBox[{"block", "=", 
+                RowBox[{"Read", "[", 
+                 RowBox[{"strGraphs", ",", "Word"}], "]"}]}]}], "]"}], 
+             ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Close", "[", "strGraphs", "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"startgraphnumber", "\[Equal]", "1"}], "&&", 
+             RowBox[{"sectioned", "\[Equal]", "0"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"GraphDvalues", ">>", 
+             RowBox[{"dir", "<>", "\"\<CoefficientList.txt\>\""}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"GraphDvalues", ">>", 
+             RowBox[{"dir", "<>", "\"\<CoefficientList_\>\"", "<>", 
+              RowBox[{"ToString", "[", "startgraphnumber", "]"}], "<>", 
+              "\"\<.txt\>\""}]}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+      "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "\[IndentingNewLine]", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "coefflist"}], " ", "finds", " ", "the", " ", "coefficient", " ", 
+      "list", " ", "for", " ", "a", " ", "particular", " ", "graph", " ", 
+      "in", " ", "the", " ", "file", " ", 
+      RowBox[{"CoefficientList", ".", "txt"}], " ", "and", " ", "returns", 
+      " ", "is", " ", "as", " ", "a", " ", 
+      RowBox[{"list", ".", "\[IndentingNewLine]", "This"}], " ", "is", " ", 
+      "needed", " ", "if", " ", "the", " ", "number", " ", "of", " ", "graph",
+       " ", "is", " ", "too", " ", "large", " ", "and", " ", "the", " ", 
+      "whole", " ", "list", " ", "can", " ", "not", " ", "be", " ", "read", 
+      " ", "into", " ", 
+      RowBox[{"memory", ".", " ", "However"}]}], ",", " ", 
+     RowBox[{
+     "if", " ", "the", " ", "number", " ", "of", " ", "graphs", " ", "is", 
+      " ", "small", " ", "enough", " ", "the", " ", "whole", " ", "file", " ",
+       "should", " ", "be", " ", "read", " ", "as", " ", "a", " ", "list", 
+      " ", "into", " ", 
+      RowBox[{
+      "memory", ".", " ", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "Example"}], " ", 
+      RowBox[{"use", ":", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"coefflist", "[", "1", "]"}], "\[IndentingNewLine]", "**", "**",
+          "**", "**"}], "*", 
+        RowBox[{
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "\[IndentingNewLine]", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**"}]}]}]}]}], "******)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"coefflist", "[", "graphnumber_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"list", ",", "string", ",", "str"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"str", "=", 
+        RowBox[{"OpenRead", "[", "\"\<CoefficientList.txt\>\"", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"string", "=", 
+        RowBox[{"\"\<{\>\"", "<>", 
+         RowBox[{"ToString", "[", "graphnumber", "]"}], "<>", "\"\<,\>\""}]}],
+        ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"SameQ", "[", 
+          RowBox[{
+           RowBox[{"Find", "[", 
+            RowBox[{"str", ",", "string", ",", 
+             RowBox[{"RecordSeparators", "\[Rule]", 
+              RowBox[{"{", "\"\< \>\"", "}"}]}]}], "]"}], ",", "EndOfFile"}], 
+          "]"}], ",", "0", ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"SetStreamPosition", "[", 
+           RowBox[{"str", ",", 
+            RowBox[{
+             RowBox[{"StreamPosition", "[", "str", "]"}], "+", "1"}]}], "]"}],
+           ";", "\[IndentingNewLine]", 
+          RowBox[{"list", "=", 
+           RowBox[{"Read", "[", 
+            RowBox[{"str", ",", "Record", ",", 
+             RowBox[{"RecordSeparators", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{"\"\<{\>\"", ",", "\"\<}\>\""}], "}"}]}]}], "]"}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"Close", "[", "str", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"ToExpression", "[", 
+           RowBox[{"StringSplit", "[", 
+            RowBox[{
+             RowBox[{"ToString", "[", "list", "]"}], ",", "\"\<,\>\""}], 
+            "]"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"**", "**", "**", "**"}], "*", 
+      RowBox[{
+      "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "\[IndentingNewLine]", 
+       "CoeffToDvalue"}], " ", "turns", " ", "a", " ", "coefficient", " ", 
+      "list", " ", "returned", " ", "by", " ", "coefflist", " ", "into", " ", 
+      "a", " ", "D"}], "-", 
+     RowBox[{"value", " ", "as", " ", "a", " ", "polynomial", " ", "in", " ", 
+      RowBox[{"y", "\[IndentingNewLine]", "**", "**", "**", "**"}], "*", 
+      RowBox[{
+      "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "\[IndentingNewLine]", 
+       "Example"}], " ", 
+      RowBox[{"use", ":", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"CoeffToDvalue", "[", 
+          RowBox[{"coefflist", "[", "1", "]"}], "]"}], "\[IndentingNewLine]", 
+         "**", "**", "**", "**"}], "*", 
+        RowBox[{
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**"}]}]}]}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoeffToDvalue", "[", "list_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{"list", ".", 
+       RowBox[{"y", "^", 
+        RowBox[{"(", 
+         RowBox[{"Range", "[", 
+          RowBox[{"0", ",", 
+           RowBox[{
+            RowBox[{"Length", "[", "list", "]"}], "-", "1"}]}], "]"}], 
+         ")"}]}]}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"**", "**", "**", "**"}], "*", 
+      RowBox[{
+      "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "\[IndentingNewLine]", 
+       "GetDerivative"}], " ", "returns", " ", "the", " ", "derivative", " ", 
+      "of", " ", "a", " ", "D"}], "-", 
+     RowBox[{"value", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"as", " ", "polynomial", " ", "in", " ", "y"}], ")"}], ".", 
+       " ", "This"}], " ", "function", " ", "is", " ", "used", " ", "to", " ",
+       "compute", " ", "the", " ", "A"}], "-", 
+     RowBox[{
+     "value", " ", "as", " ", "fraction", " ", "of", " ", "the", " ", "D"}], 
+     "-", 
+     RowBox[{"value", " ", "and", " ", "its", " ", 
+      RowBox[{"derivative", ".", "\[IndentingNewLine]", 
+       RowBox[{"**", "**", "**", "**"}]}], "*", 
+      RowBox[{
+      "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", 
+       "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+        "**", "**", "**", "**", "**", "**", "\[IndentingNewLine]", 
+       "Example"}], " ", 
+      RowBox[{"use", ":", " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"GetDerivative", "[", 
+          RowBox[{"CoeffToDvalue", "[", 
+           RowBox[{"coefflist", "[", "1", "]"}], "]"}], "]"}], 
+         "\[IndentingNewLine]", "**", "**", "**", "**"}], "*", 
+        RowBox[{
+        "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**", "**",
+          "**", "**", "**", "**", "**", "**"}]}]}]}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"GetDerivative", "[", "value_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{"D", "[", 
+       RowBox[{"value", ",", "y"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FindStabilizingValue", "[", 
+     RowBox[{"v_", " ", ",", "degree_", ",", "maxY_", ",", "Memory_"}], "]"}],
+     ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "i", ",", "k", ",", "$path", ",", "dir", ",", "dir2", ",", "file", ",",
+         "values", ",", "Dvalues", ",", "Der", ",", "Avalues", ",", 
+        "Dvaluelist", ",", "Avaluelist", ",", "Alist1", ",", "Aorder1", ",", 
+        "Dlist1", ",", "Dorder1", ",", "AvaluelistOrder", ",", 
+        "DvaluelistOrder", ",", "coeffs", ",", "graphnumber", ",", "Avalue", 
+        ",", "Dvalue"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"setting", " ", "all", " ", "directories"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"$path", "=", "wdir"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SetDirectory", "[", "$path", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"v", "<", "10"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"dir", "=", 
+          RowBox[{"$path", "<>", 
+           RowBox[{"ToString", "[", "0", "]"}], "<>", 
+           RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+           RowBox[{"ToString", "[", "0", "]"}], "<>", 
+           RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+           RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+         ",", 
+         RowBox[{
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"!", 
+          RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+          "Print", "[", "\"\<Error: Directory does not exist\>\"", "]"}], ";", 
+          RowBox[{"Break", "[", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SetDirectory", "[", "dir", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Computing", " ", "the", " ", "orders", " ", "in", " ", "the", " ", 
+         "case", " ", "that", " ", 
+         RowBox[{"CoefficientList", ".", "txt"}], " ", "can", " ", "be", " ", 
+         "read", " ", "whole", " ", "into", " ", "memory", " ", 
+         RowBox[{"(", 
+          RowBox[{"Memory", "=", "1"}], ")"}]}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Memory", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{
+           "reading", " ", "in", " ", "the", " ", "coeffient", " ", "list", 
+            " ", "and", " ", "turning", " ", "it", " ", "into", " ", "A"}], 
+           "-", " ", 
+           RowBox[{"and", " ", "D"}], "-", "values"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"values", "=", 
+           RowBox[{"First", "[", 
+            RowBox[{"ReadList", "[", "\"\<CoefficientList.txt\>\"", "]"}], 
+            "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"Dvalues", "=", 
+           RowBox[{"Map", "[", 
+            RowBox[{"CoeffToDvalue", ",", 
+             RowBox[{"Flatten", "[", 
+              RowBox[{
+               RowBox[{"Drop", "[", 
+                RowBox[{"values", ",", "None", ",", "1"}], "]"}], ",", "1"}], 
+              "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Der", "=", 
+           RowBox[{"GetDerivative", "@", "Dvalues"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Avalues", "=", 
+           RowBox[{"Dvalues", "/", "Der"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "assignment", " ", "of", " ", "graphnumbers", " ", "to", " ", 
+             "the", " ", "A"}], "-", " ", 
+            RowBox[{"and", " ", "D"}], "-", 
+            RowBox[{
+            "values", " ", "in", " ", "the", " ", "order", " ", "they", " ", 
+             "have", " ", "been", " ", "saved", " ", "to", " ", 
+             RowBox[{"CoefficientList", ".", "txt"}]}]}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Dvaluelist", "[", "y_", "]"}], "=", 
+           RowBox[{"Partition", "[", 
+            RowBox[{
+             RowBox[{"Riffle", "[", 
+              RowBox[{
+               RowBox[{"Range", "[", 
+                RowBox[{"1", ",", 
+                 RowBox[{"Length", "[", "Dvalues", "]"}]}], "]"}], ",", 
+               "Dvalues"}], "]"}], ",", "2"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Avaluelist", "[", "y_", "]"}], "=", 
+           RowBox[{"Partition", "[", 
+            RowBox[{
+             RowBox[{"Riffle", "[", 
+              RowBox[{
+               RowBox[{"Range", "[", 
+                RowBox[{"1", ",", 
+                 RowBox[{"Length", "[", "Avalues", "]"}]}], "]"}], ",", 
+               "Avalues"}], "]"}], ",", "2"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "Getting", " ", "the", " ", "orders", " ", "for", " ", "y"}], "=",
+             "0"}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"Alist1", "=", 
+           RowBox[{"Sort", "[", 
+            RowBox[{
+             RowBox[{"Avaluelist", "[", "0", "]"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#1", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], ">", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Aorder1", "=", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Drop", "[", 
+             RowBox[{"Alist1", ",", "None", ",", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Dlist1", "=", 
+           RowBox[{"Sort", "[", 
+            RowBox[{
+             RowBox[{"Dvaluelist", "[", "0", "]"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#1", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], ">", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Dorder1", "=", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Drop", "[", 
+             RowBox[{"Dlist1", ",", "None", ",", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"computing", " ", "orders", " ", "for", " ", "y"}], "=", 
+             "1"}], ",", "..", ",", 
+            RowBox[{
+            "mxY", " ", "and", " ", "comparing", " ", "the", " ", "orders", 
+             " ", "to", " ", "the", " ", "previous", " ", 
+             RowBox[{"ones", ".", " ", "If"}], " ", "there", " ", "is", " ", 
+             "an", " ", "order", " ", "change"}], ",", " ", 
+            RowBox[{"the", " ", "order", " ", "is", " ", 
+             RowBox[{"updated", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "<", 
+             RowBox[{"maxY", "+", "1"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Alist1", "=", 
+              RowBox[{"Sort", "[", 
+               RowBox[{
+                RowBox[{"Avaluelist", "[", "i", "]"}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"#1", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], ">", 
+                  RowBox[{"#2", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Dlist1", "=", 
+              RowBox[{"Sort", "[", 
+               RowBox[{
+                RowBox[{"Dvaluelist", "[", "i", "]"}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"#1", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], ">", 
+                  RowBox[{"#2", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"AvaluelistOrder", "=", 
+              RowBox[{"Flatten", "[", 
+               RowBox[{"Drop", "[", 
+                RowBox[{"Alist1", ",", "None", ",", 
+                 RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"DvaluelistOrder", "=", 
+              RowBox[{"Flatten", "[", 
+               RowBox[{"Drop", "[", 
+                RowBox[{"Dlist1", ",", "None", ",", 
+                 RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"Aorder1", "\[NotEqual]", "AvaluelistOrder"}], ",", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<A-Order Change at x= \>\"", ",", "i"}], "]"}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{"Aorder1", "=", "AvaluelistOrder"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"Dorder1", "\[NotEqual]", "DvaluelistOrder"}], ",", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<D-Order Change at x= \>\"", ",", "i"}], "]"}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{"Dorder1", "=", "DvaluelistOrder"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}]}]}]}], "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "]"}], ";"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Computing", " ", "the", " ", "orders", " ", "in", " ", "the", " ", 
+         "case", " ", "that", " ", 
+         RowBox[{"CoefficientList", ".", "txt"}], " ", "can", " ", "not", " ",
+          "read", " ", "whole", " ", "into", " ", "memory", " ", 
+         RowBox[{"(", 
+          RowBox[{"Memory", "=", "0"}], ")"}]}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"Memory", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{
+           "Initialising", " ", "lists", " ", "of", " ", "lists", " ", "to", 
+            " ", "store", " ", "the", " ", "A"}], "-", " ", 
+           RowBox[{"and", " ", "D"}], "-", 
+           RowBox[{
+           "values", " ", "evaluated", " ", "for", " ", "the", " ", 
+            "different", " ", "values"}]}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Avalues", "=", 
+           RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Dvalues", "=", 
+           RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "1"}], ",", 
+            RowBox[{"i", "<=", 
+             RowBox[{"maxY", "+", "1"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"AppendTo", "[", 
+              RowBox[{"Avalues", ",", 
+               RowBox[{"{", "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"AppendTo", "[", 
+              RowBox[{"Dvalues", ",", 
+               RowBox[{"{", "}"}]}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+           "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "going", " ", "through", " ", "the", " ", "file", " ", "from", 
+             " ", "first", " ", "to", " ", "last", " ", "graph", " ", "and", 
+             " ", "compute", " ", "the", " ", "evaluated", " ", "A"}], "-", 
+            " ", 
+            RowBox[{"and", " ", "D"}], "-", 
+            RowBox[{
+            "values", " ", "and", " ", "storing", " ", "them", " ", "in", " ",
+              "the", " ", "lists", " ", "of", " ", "lists"}]}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"graphnumber", "=", "1"}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          RowBox[{"coeffs", "=", 
+           RowBox[{"coefflist", "[", "graphnumber", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"While", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "coeffs", "]"}], ">", "0"}], ",", 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Dvalue", "[", "y_", "]"}], "=", 
+              RowBox[{"CoeffToDvalue", "[", "coeffs", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"Avalue", "[", "y_", "]"}], "=", 
+              RowBox[{
+               RowBox[{"Dvalue", "[", "y", "]"}], "/", 
+               RowBox[{"D", "[", 
+                RowBox[{
+                 RowBox[{"Dvalue", "[", "y", "]"}], ",", "y"}], "]"}]}]}], 
+             ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"For", "[", 
+              RowBox[{
+               RowBox[{"i", "=", "1"}], ",", 
+               RowBox[{"i", "<=", 
+                RowBox[{"maxY", "+", "1"}]}], ",", 
+               RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"AppendTo", "[", 
+                 RowBox[{
+                  RowBox[{"Avalues", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"graphnumber", ",", 
+                    RowBox[{"Avalue", "[", 
+                    RowBox[{"i", "-", "1"}], "]"}]}], "}"}]}], "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"AppendTo", "[", 
+                 RowBox[{
+                  RowBox[{"Dvalues", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"graphnumber", ",", 
+                    RowBox[{"Dvalue", "[", 
+                    RowBox[{"i", "-", "1"}], "]"}]}], "}"}]}], "]"}], ";"}]}],
+               "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"graphnumber", "=", 
+              RowBox[{"graphnumber", "+", "1"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"coeffs", "=", 
+              RowBox[{"coefflist", "[", "graphnumber", "]"}]}], ";"}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Sorting", " ", "the", " ", "A"}], "-", " ", 
+             RowBox[{"and", " ", "D"}], "-", 
+             RowBox[{"values", " ", "for", " ", "y"}]}], "=", 
+            RowBox[{"0", " ", "as", " ", "reference", " ", "order"}]}], 
+           "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"Alist1", "=", 
+           RowBox[{"Sort", "[", 
+            RowBox[{
+             RowBox[{"Avalues", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#1", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], ">", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Dlist1", "=", 
+           RowBox[{"Sort", "[", 
+            RowBox[{
+             RowBox[{"Dvalues", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"#1", "[", 
+                RowBox[{"[", "2", "]"}], "]"}], ">", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Aorder1", ",", " ", 
+            RowBox[{
+             RowBox[{
+             "Dorder1", " ", "are", " ", "lists", " ", "of", " ", 
+              "graphnumbers", " ", "in", " ", "the", " ", "descending", " ", 
+              "order", " ", "of", " ", "A"}], "-", 
+             RowBox[{"and", " ", "D"}], "-", "values"}]}], "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"Aorder1", "=", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Drop", "[", 
+             RowBox[{"Alist1", ",", "None", ",", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Dorder1", "=", 
+           RowBox[{"Flatten", "[", 
+            RowBox[{"Drop", "[", 
+             RowBox[{"Dlist1", ",", "None", ",", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+            "computing", " ", "the", " ", "orders", " ", "for", " ", "the", 
+             " ", "other", " ", "values", " ", "and", " ", "comparing", " ", 
+             "with", " ", "the", " ", "reference", " ", 
+             RowBox[{"order", ".", " ", "If"}], " ", "there", " ", "is", " ", 
+             "an", " ", "orderchange"}], ",", " ", 
+            RowBox[{
+            "the", " ", "orders", " ", "are", " ", "updated", " ", "and", " ",
+              "a", " ", "notice", " ", "is", " ", "printed", " ", "to", " ", 
+             "screen"}]}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"i", "=", "2"}], ",", 
+            RowBox[{"i", "<=", 
+             RowBox[{"maxY", "+", "1"}]}], ",", 
+            RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Alist1", "=", 
+              RowBox[{"Sort", "[", 
+               RowBox[{
+                RowBox[{"Avalues", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"#1", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], ">", 
+                  RowBox[{"#2", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Dlist1", "=", 
+              RowBox[{"Sort", "[", 
+               RowBox[{
+                RowBox[{"Dvalues", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"#1", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], ">", 
+                  RowBox[{"#2", "[", 
+                   RowBox[{"[", "2", "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"AvaluelistOrder", "=", 
+              RowBox[{"Flatten", "[", 
+               RowBox[{"Drop", "[", 
+                RowBox[{"Alist1", ",", "None", ",", 
+                 RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"DvaluelistOrder", "=", 
+              RowBox[{"Flatten", "[", 
+               RowBox[{"Drop", "[", 
+                RowBox[{"Dlist1", ",", "None", ",", 
+                 RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"Aorder1", "\[NotEqual]", "AvaluelistOrder"}], ",", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<A-Order Change at x= \>\"", ",", 
+                   RowBox[{"i", "-", "1"}]}], "]"}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"Aorder1", "=", "AvaluelistOrder"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"Dorder1", "\[NotEqual]", "DvaluelistOrder"}], ",", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<D-Order Change at x= \>\"", ",", 
+                   RowBox[{"i", "-", "1"}]}], "]"}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"Dorder1", "=", "DvaluelistOrder"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}]}]}]}], "\[IndentingNewLine]", 
+           "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"printing", " ", "orders", " ", "to", " ", "file"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"Dorder1", ">>", "DvaluesOrdered.txt"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Aorder1", ">>", "AvaluesOrdered.txt"}], ";"}]}], 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "]"}]}], "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ADOrder", "[", 
+      RowBox[{
+      "v_", ",", "degree_", ",", "stabvalue_", ",", "startposition_", ",", 
+       "Memory_"}], "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "dir", ",", "$path", ",", "valuelist", ",", "realvaluelist", ",", 
+         "changelist", ",", "dvaluelist", ",", "drealvaluelist", ",", 
+         "dchangelist", ",", "aordering", ",", "dordering", ",", "Aorderlist",
+          ",", "Dorderlist", ",", "a1", ",", "d1", ",", "a2", ",", "d2", ",", 
+         "avalue2", ",", "dvalue2", ",", "avalue1", ",", "dvalue1", ",", 
+         "values", ",", "Dvalues", ",", "Der", ",", "Avalues", ",", "coeffs", 
+         ",", "advalue", ",", "value1", ",", "value2", ",", "polA", ",", 
+         "polD", ",", "failed", ",", "roots", ",", "Nroots", ",", "n1", ",", 
+         "maxY", ",", "p", ",", "comparevalue"}], "}"}], ",", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"setting", " ", "all", " ", "directories"}], "*)"}], 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"$path", "=", "wdir"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"SetDirectory", "[", "$path", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"v", "<", "10"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ",", 
+          RowBox[{
+           RowBox[{"dir", "=", 
+            RowBox[{"$path", "<>", 
+             RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+             RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+             RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+           ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+           "Print", "[", "\"\<Error: Directory does not exist\>\"", "]"}], 
+           ";", 
+           RowBox[{"Break", "[", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}],
+         ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"SetDirectory", "[", "dir", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"FileExistsQ", "[", "\"\<AvaluesOrdered.txt\>\"", "]"}]}], 
+          ",", 
+          RowBox[{
+           RowBox[{
+           "Print", "[", "\"\<Error: AvaluesOrdered.txt does not exist\>\"", 
+            "]"}], ";", 
+           RowBox[{"Break", "[", "]"}], ";"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"FileExistsQ", "[", "\"\<DvaluesOrdered.txt\>\"", "]"}]}], 
+          ",", 
+          RowBox[{
+           RowBox[{
+           "Print", "[", "\"\<Error: AvaluesOrdered.txt does not exist\>\"", 
+            "]"}], ";", 
+           RowBox[{"Break", "[", "]"}], ";"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{
+          "initializing", " ", "lists", " ", "that", " ", "will", " ", 
+           "contain", " ", "any", " ", "roots"}], ",", " ", 
+          RowBox[{"the", " ", "next", " ", "smallest", " ", "integer"}], ",", 
+          " ", 
+          RowBox[{
+           RowBox[{"the", " ", "A"}], "-", " ", 
+           RowBox[{"and", " ", "D"}], "-", 
+           RowBox[{
+           "values", " ", "and", " ", "graphnumber", " ", "where", " ", "the",
+             " ", "order", " ", "change", " ", 
+            RowBox[{"occured", ".", " ", "aordering"}], " ", "and", " ", 
+            "dordering", " ", "are", " ", "flags", " ", "to", " ", "whether", 
+            " ", "or", " ", "not", " ", "the", " ", "order", " ", 
+            "changes"}]}]}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"valuelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"realvaluelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"changelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dvaluelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"drealvaluelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dchangelist", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"aordering", "=", "0"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"dordering", "=", "0"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Reading", " ", "in", " ", "the", " ", "orders"}], " ", 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"Aorderlist", "=", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"ReadList", "[", "\"\<AvaluesOrdered.txt\>\"", "]"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Dorderlist", "=", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"ReadList", "[", "\"\<DvaluesOrdered.txt\>\"", "]"}], 
+          "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"a1", "=", 
+         RowBox[{"Aorderlist", "[", 
+          RowBox[{"[", "startposition", "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"d1", "=", 
+         RowBox[{"Dorderlist", "[", 
+          RowBox[{"[", "startposition", "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"Dorderlist", "\[Equal]", "Aorderlist"}], ",", 
+          RowBox[{
+           RowBox[{
+           "Print", "[", "\"\<Orders for stabilizing value are the same\>\"", 
+            "]"}], ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Computing", " ", "the", " ", "orders", " ", "in", " ", "the", " ", 
+          "case", " ", "that", " ", 
+          RowBox[{"CoefficientList", ".", "txt"}], " ", "can", " ", "be", " ",
+           "read", " ", "whole", " ", "into", " ", "memory", " ", 
+          RowBox[{"(", 
+           RowBox[{"Memory", "=", "1"}], ")"}]}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"Memory", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+            "reading", " ", "in", " ", "the", " ", "coeffient", " ", "list", 
+             " ", "and", " ", "turning", " ", "it", " ", "into", " ", "A"}], 
+            "-", " ", 
+            RowBox[{"and", " ", "D"}], "-", "values"}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"values", "=", 
+            RowBox[{"First", "[", 
+             RowBox[{"ReadList", "[", "\"\<CoefficientList.txt\>\"", "]"}], 
+             "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"Dvalues", "=", 
+            RowBox[{"Map", "[", 
+             RowBox[{"CoeffToDvalue", ",", 
+              RowBox[{"Flatten", "[", 
+               RowBox[{
+                RowBox[{"Drop", "[", 
+                 RowBox[{"values", ",", "None", ",", "1"}], "]"}], ",", "1"}],
+                "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"Der", "=", 
+            RowBox[{"GetDerivative", "@", "Dvalues"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Avalues", "=", 
+            RowBox[{"Dvalues", "/", "Der"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{
+             "Getting", " ", "the", " ", "values", " ", "of", " ", "the", " ",
+               "A"}], "-", " ", 
+             RowBox[{"and", " ", "D"}], "-", 
+             RowBox[{
+             "best", " ", "graph", " ", "as", " ", "reference", " ", 
+              "values"}]}], "*)"}], "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"avalue2", "[", "y_", "]"}], "=", 
+            RowBox[{"Avalues", "[", 
+             RowBox[{"[", "a1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"dvalue2", "[", "y_", "]"}], "=", 
+            RowBox[{"Dvalues", "[", 
+             RowBox[{"[", "d1", "]"}], "]"}]}], ";"}]}], 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Computing", " ", "the", " ", "orders", " ", "in", " ", "the", " ", 
+          "case", " ", "that", " ", 
+          RowBox[{"CoefficientList", ".", "txt"}], " ", "can", " ", "not", 
+          " ", "read", " ", "whole", " ", "into", " ", "memory", " ", 
+          RowBox[{"(", 
+           RowBox[{"Memory", "=", "0"}], ")"}]}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"Memory", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{
+            "Getting", " ", "the", " ", "values", " ", "of", " ", "the", " ", 
+             "A"}], "-", " ", 
+            RowBox[{"and", " ", "D"}], "-", 
+            RowBox[{
+            "best", " ", "graph", " ", "as", " ", "reference", " ", "values", 
+             " ", "reading", " ", "directly", " ", "from", " ", 
+             RowBox[{"CoefficientList", ".", "txt"}]}]}], "*)"}], 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"coeffs", "=", 
+            RowBox[{"coefflist", "[", "d1", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"dvalue2", "[", "y_", "]"}], "=", 
+            RowBox[{"CoeffToDvalue", "[", "coeffs", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"advalue", "[", "y_", "]"}], "=", 
+            RowBox[{"CoeffToDvalue", "[", 
+             RowBox[{"coefflist", "[", "a1", "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"avalue2", "[", "y_", "]"}], "=", 
+            RowBox[{
+             RowBox[{"advalue", "[", "y", "]"}], "/", 
+             RowBox[{"D", "[", 
+              RowBox[{
+               RowBox[{"advalue", "[", "y", "]"}], ",", "y"}], "]"}]}]}], 
+           ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "starting", " ", "to", " ", "compare", " ", "every", " ", "graph", 
+          " ", "in", " ", "the", " ", "order", " ", "with", " ", "its", " ", 
+          "predecessor"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"i", "=", "startposition"}], ",", 
+          RowBox[{"i", "<", 
+           RowBox[{"Length", "[", "Aorderlist", "]"}]}], ",", 
+          RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+           "Getting", " ", "the", " ", "next", " ", "best", " ", 
+            "graphnumbers", " ", "in", " ", "both", " ", "orders", " ", "and",
+             " ", "the", " ", "values"}], "*)"}], "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"a2", "=", 
+            RowBox[{"Aorderlist", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"d2", "=", 
+            RowBox[{"Aorderlist", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"avalue1", "[", "y_", "]"}], "=", 
+            RowBox[{"avalue2", "[", "y", "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"dvalue1", "[", "y_", "]"}], "=", 
+            RowBox[{"dvalue2", "[", "y", "]"}]}], ";", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"Memory", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"avalue2", "[", "y_", "]"}], "=", 
+               RowBox[{"Avalues", "[", 
+                RowBox[{"[", "a2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"dvalue2", "[", "y_", "]"}], "=", 
+               RowBox[{"Dvalues", "[", 
+                RowBox[{"[", "d2", "]"}], "]"}]}], ";"}]}], 
+            "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"Memory", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"coeffs", "=", 
+               RowBox[{"coefflist", "[", "d2", "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"dvalue2", "[", "y_", "]"}], "=", 
+               RowBox[{"CoeffToDvalue", "[", "coeffs", "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"advalue", "[", "y_", "]"}], "=", 
+               RowBox[{"CoeffToDvalue", "[", 
+                RowBox[{"coefflist", "[", "a2", "]"}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"avalue2", "[", "y_", "]"}], "=", 
+               RowBox[{
+                RowBox[{"advalue", "[", "y", "]"}], "/", 
+                RowBox[{"D", "[", 
+                 RowBox[{
+                  RowBox[{"advalue", "[", "y", "]"}], ",", "y"}], "]"}]}]}], 
+              ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{"Comparing", " ", "the", " ", 
+              RowBox[{"avalues", ".", " ", "If"}], " ", "the", " ", "order", 
+              " ", "is", " ", "correct"}], ",", " ", 
+             RowBox[{
+             "the", " ", "polynomials", " ", "polA", " ", "and", " ", "polD", 
+              " ", "have", " ", "not", " ", "positive", " ", 
+              RowBox[{"roots", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+           RowBox[{"value1", "=", 
+            RowBox[{"avalue1", "[", 
+             RowBox[{"y", "+", "stabvalue"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"value2", "=", 
+            RowBox[{"avalue2", "[", 
+             RowBox[{"y", "+", "stabvalue"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", 
+           RowBox[{"polA", "=", 
+            RowBox[{"Simplify", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Numerator", "[", "value1", "]"}], "*", 
+               RowBox[{"Denominator", "[", "value2", "]"}]}], "-", 
+              RowBox[{
+               RowBox[{"Numerator", "[", "value2", "]"}], "*", 
+               RowBox[{"Denominator", "[", "value1", "]"}]}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"polD", "=", 
+            RowBox[{
+             RowBox[{"dvalue1", "[", 
+              RowBox[{"y", "+", "stabvalue"}], "]"}], "-", 
+             RowBox[{"dvalue2", "[", 
+              RowBox[{"y", "+", "stabvalue"}], "]"}]}]}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"(*", " ", 
+            RowBox[{
+             RowBox[{
+             "Before", " ", "computing", " ", "roots", " ", "of", " ", "the", 
+              " ", "polynomial", " ", "polA"}], ",", " ", 
+             RowBox[{
+             "we", " ", "check", " ", "that", " ", "is", " ", "not", " ", 
+              "the", " ", "zero", " ", 
+              RowBox[{"polynomial", ".", " ", "Because"}], " ", "we", " ", 
+              "do", " ", "not", " ", "need", " ", "to", " ", "check", " ", 
+              "for", " ", "roots", " ", "if", " ", "all", " ", "coefficients",
+               " ", "of", " ", "polA", " ", "are", " ", "strictly", " ", 
+              "positive"}], ",", " ", 
+             RowBox[{
+             "we", " ", "only", " ", "check", "\[IndentingNewLine]", " ", 
+              RowBox[{"Case1", ":", " ", 
+               RowBox[{
+               "all", " ", "coefficients", " ", "are", " ", "striclty", " ", 
+                "negative", " ", "and", " ", "\[IndentingNewLine]", "Case2"}],
+                ":", " ", 
+               RowBox[{
+               "polA", " ", "has", " ", "mixed", " ", "coefficients"}]}]}]}], 
+            "*)"}], " ", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", 
+               RowBox[{"CoefficientList", "[", 
+                RowBox[{"polA", ",", "y"}], "]"}], "]"}], ">", "0"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{"Case1", ":", " ", 
+               RowBox[{
+               "polA", " ", "has", " ", "none", " ", "stricly", " ", 
+                "positive", " ", "coefficient"}]}], "*)"}], 
+             RowBox[{
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Length", "[", 
+                   RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", "<", "0"}]}]}], "]"}], "]"}], ">", "0"}], "&&", 
+                 RowBox[{
+                  RowBox[{"Length", "[", 
+                   RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", ">", "0"}]}]}], "]"}], "]"}], "\[Equal]", 
+                  "0"}]}], ",", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{
+                  "If", " ", "the", " ", "polynomial", " ", "polA", " ", "is",
+                    " ", "not", " ", "constant"}], ",", " ", 
+                  RowBox[{
+                  "we", " ", "search", " ", "for", " ", "positive", " ", 
+                   "roots", " ", "using", " ", "exact", " ", 
+                   RowBox[{"methods", ".", " ", "This"}], " ", "is", " ", 
+                   "time", " ", "constrained", " ", "and", " ", "we", " ", 
+                   "switch", " ", "to", " ", "a", " ", "numerical", " ", 
+                   "search", " ", "which", " ", "will", " ", "throw", " ", 
+                   "a", " ", "message", " ", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"failed", "=", "1"}], ")"}], "."}]}]}], "*)"}], 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Exponent", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], "\[GreaterEqual]", 
+                   "0"}], ",", 
+                  RowBox[{
+                   RowBox[{"failed", "=", "0"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{"roots", "=", 
+                    RowBox[{"Solve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polA", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y", ",", 
+                    "Reals"}], "]"}]}], ",", "300", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Nroots", "=", 
+                    RowBox[{"NSolve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polA", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y"}], 
+                    "]"}]}], ",", 
+                    RowBox[{"failed", "=", "1"}]}], "}"}]}], "]"}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "roots", " ", "are", " ", "found", " ", "with",
+                     " ", "the", " ", "exact", " ", "method"}], ",", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "then", " ", "we", " ", "add", " ", "the", " ", "root", 
+                    " ", "to", " ", "realvaluelist", " ", "and", " ", "the", 
+                    " ", "least", " ", "smallest", " ", "integer", " ", "to", 
+                    " ", 
+                    RowBox[{"valuelist", ".", " ", "That"}], " ", "there", 
+                    " ", "is", " ", "an", " ", "orderchange", " ", "is", " ", 
+                    "captured", " ", "by", " ", "setting", " ", "aordering"}],
+                     "=", 
+                    RowBox[{
+                    "1", " ", "and", " ", "we", " ", "store", " ", "the", " ",
+                     "graphnumber", " ", "n1", " ", "in", " ", 
+                    RowBox[{"changelist", ".", " ", "The"}], " ", "algorithm",
+                     " ", "is", " ", "stopped", " ", "by", " ", 
+                    RowBox[{"Break", "[", "]"}]}]}], ";"}]}], "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "roots", "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"First", "[", "roots", "]"}], "\[NotEqual]", 
+                    RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"realvaluelist", ",", 
+                    RowBox[{"y", "/.", "roots"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"valuelist", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"y", "/.", "roots"}], "]"}], "]"}], "+", 
+                    "maxY"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"changelist", ",", "n1"}], "]"}], ";", 
+                    RowBox[{"aordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<A-Orderchange for \>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", "realvaluelist", "]"}], "]"}], "+", 
+                    "1", "+", "stabvalue"}], ",", "\"\< > x>=\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Min", "[", "realvaluelist", "]"}], "]"}], "+", 
+                    "stabvalue"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Clear", "[", "roots", "]"}], ";"}]}], "]"}], ";",
+                    "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "exact", " ", "method", " ", "was",
+                     " ", "interrupted", " ", "with", " ", "the", " ", "time",
+                     " ", "constraints", " ", "and", " ", "roots", " ", "are",
+                     " ", "found", " ", "with", " ", "the", " ", "numerical", 
+                    " ", "method"}], ",", " ", 
+                    RowBox[{
+                    "a", " ", "message", " ", "to", " ", "screen", " ", "is", 
+                    " ", "printed", " ", "togehter", " ", "with", " ", "the", 
+                    " ", "graphnumner", " ", "and", " ", "Avalue", " ", "and",
+                     " ", "the", " ", 
+                    RowBox[{"roots", "."}]}]}], " ", "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"failed", "\[Equal]", "1"}], ",", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "Nroots", "]"}], ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Possible better design found with numerical method\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<graphnumber \>\"", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"aordering", "=", "1"}], ";", 
+                    RowBox[{"Break", "[", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                 "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{"Case2", ":", " ", 
+                  RowBox[{
+                  "polA", " ", "has", " ", "mixed", " ", "positive", " ", 
+                   "and", " ", "negative", " ", "coefficients"}]}], " ", 
+                 "*)"}], "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", "<", "0"}]}]}], "]"}], "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", ">", "0"}]}]}], "]"}], "]"}], ">", "0"}]}], 
+                   ",", "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "polynomial", " ", "polA", " ", 
+                    "is", " ", "not", " ", "constant"}], ",", " ", 
+                    RowBox[{
+                    "we", " ", "search", " ", "for", " ", "positive", " ", 
+                    "roots", " ", "using", " ", "exact", " ", 
+                    RowBox[{"methods", ".", " ", "This"}], " ", "is", " ", 
+                    "time", " ", "constrained", " ", "and", " ", "we", " ", 
+                    "switch", " ", "to", " ", "a", " ", "numerical", " ", 
+                    "search", " ", "which", " ", "will", " ", "throw", " ", 
+                    "a", " ", "message", " ", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"failed", "=", "1"}], ")"}], "."}]}]}], "*)"}], 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Exponent", "[", 
+                    RowBox[{"polA", ",", "y"}], "]"}], "\[GreaterEqual]", 
+                    "0"}], ",", 
+                    RowBox[{
+                    RowBox[{"failed", "=", "0"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{"roots", "=", 
+                    RowBox[{"Solve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polA", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y", ",", 
+                    "Reals"}], "]"}]}], ",", "300", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Nroots", "=", 
+                    RowBox[{"NSolve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polA", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y"}], 
+                    "]"}]}], ",", 
+                    RowBox[{"failed", "=", "1"}]}], "}"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "roots", " ", "are", " ", "found", " ", "with",
+                     " ", "the", " ", "exact", " ", "method"}], ",", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "then", " ", "we", " ", "add", " ", "the", " ", "root", 
+                    " ", "to", " ", "realvaluelist", " ", "and", " ", "the", 
+                    " ", "least", " ", "smallest", " ", "integer", " ", "to", 
+                    " ", 
+                    RowBox[{"valuelist", ".", " ", "That"}], " ", "there", 
+                    " ", "is", " ", "an", " ", "orderchange", " ", "is", " ", 
+                    "captured", " ", "by", " ", "setting", " ", "aordering"}],
+                     "=", 
+                    RowBox[{
+                    "1", " ", "and", " ", "we", " ", "store", " ", "the", " ",
+                     "graphnumber", " ", "n1", " ", "in", " ", 
+                    RowBox[{"changelist", ".", " ", "The"}], " ", "algorithm",
+                     " ", "is", " ", "stopped", " ", "by", " ", 
+                    RowBox[{"Break", "[", "]"}]}]}], ";"}]}], "*)"}], 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "roots", "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"First", "[", "roots", "]"}], "\[NotEqual]", 
+                    RowBox[{"{", "}"}]}]}], ",", 
+                    RowBox[{
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"realvaluelist", ",", 
+                    RowBox[{"y", "/.", "roots"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"valuelist", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"y", "/.", "roots"}], "]"}], "]"}], "+", 
+                    "maxY"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"changelist", ",", "n1"}], "]"}], ";", 
+                    RowBox[{"aordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<A-Orderchange for \>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", "realvaluelist", "]"}], "]"}], "+", 
+                    "1", "+", "stabvalue"}], ",", "\"\< > x>=\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Min", "[", "realvaluelist", "]"}], "]"}], "+", 
+                    "stabvalue"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "exact", " ", "method", " ", "was",
+                     " ", "interrupted", " ", "with", " ", "the", " ", "time",
+                     " ", "constraints", " ", "and", " ", "roots", " ", "are",
+                     " ", "found", " ", "with", " ", "the", " ", "numerical", 
+                    " ", "method"}], ",", " ", 
+                    RowBox[{
+                    "a", " ", "message", " ", "to", " ", "screen", " ", "is", 
+                    " ", "printed", " ", "togehter", " ", "with", " ", "the", 
+                    " ", "graphnumner", " ", "and", " ", "Avalue", " ", "and",
+                     " ", "the", " ", 
+                    RowBox[{"roots", "."}]}]}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"failed", "\[Equal]", "1"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "Nroots", "]"}], ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Possible better design found with numerical method\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<graphnumber \>\"", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"aordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], 
+                    ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"(*", " ", 
+            RowBox[{
+             RowBox[{
+             "Before", " ", "computing", " ", "roots", " ", "of", " ", "the", 
+              " ", "polynomial", " ", "polD"}], ",", " ", 
+             RowBox[{
+             "we", " ", "check", " ", "that", " ", "is", " ", "not", " ", 
+              "the", " ", "zero", " ", 
+              RowBox[{"polynomial", ".", " ", "Because"}], " ", "we", " ", 
+              "do", " ", "not", " ", "need", " ", "to", " ", "check", " ", 
+              "for", " ", "roots", " ", "if", " ", "all", " ", "coefficients",
+               " ", "of", " ", "polD", " ", "are", " ", "strictly", " ", 
+              "positive"}], ",", " ", 
+             RowBox[{
+             "we", " ", "only", " ", "check", "\[IndentingNewLine]", " ", 
+              RowBox[{"Case1", ":", " ", 
+               RowBox[{
+               "all", " ", "coefficients", " ", "are", " ", "striclty", " ", 
+                "negative", " ", "and", " ", "\[IndentingNewLine]", "Case2"}],
+                ":", " ", 
+               RowBox[{
+               "polD", " ", "has", " ", "mixed", " ", "coefficients"}]}]}]}], 
+            "*)"}], " ", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", 
+               RowBox[{"CoefficientList", "[", 
+                RowBox[{"polD", ",", "y"}], "]"}], "]"}], ">", "0"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{"Case1", ":", " ", 
+               RowBox[{
+               "all", " ", "coefficients", " ", "are", " ", "striclty", " ", 
+                "negative"}]}], " ", "*)"}], 
+             RowBox[{
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Length", "[", 
+                   RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", "<", "0"}]}]}], "]"}], "]"}], ">", "0"}], "&&", 
+                 RowBox[{
+                  RowBox[{"Length", "[", 
+                   RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", ">", "0"}]}]}], "]"}], "]"}], "\[Equal]", 
+                  "0"}]}], ",", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{
+                  "If", " ", "the", " ", "polynomial", " ", "polD", " ", "is",
+                    " ", "not", " ", "constant"}], ",", " ", 
+                  RowBox[{
+                  "we", " ", "search", " ", "for", " ", "positive", " ", 
+                   "roots", " ", "using", " ", "exact", " ", 
+                   RowBox[{"methods", ".", " ", "This"}], " ", "is", " ", 
+                   "time", " ", "constrained", " ", "and", " ", "we", " ", 
+                   "switch", " ", "to", " ", "a", " ", "numerical", " ", 
+                   "search", " ", "which", " ", "will", " ", "throw", " ", 
+                   "a", " ", "message", " ", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"failed", "=", "1"}], ")"}], "."}]}]}], "*)"}], 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Exponent", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], "\[GreaterEqual]", 
+                   "0"}], ",", 
+                  RowBox[{
+                   RowBox[{"failed", "=", "0"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{"roots", "=", 
+                    RowBox[{"Solve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polD", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y", ",", 
+                    "Reals"}], "]"}]}], ",", "300", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Nroots", "=", 
+                    RowBox[{"NSolve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polD", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y"}], 
+                    "]"}]}], ",", 
+                    RowBox[{"failed", "=", "1"}]}], "}"}]}], "]"}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "roots", " ", "are", " ", "found", " ", "with",
+                     " ", "the", " ", "exact", " ", "method"}], ",", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "then", " ", "we", " ", "add", " ", "the", " ", "root", 
+                    " ", "to", " ", "drealvaluelist", " ", "and", " ", "the", 
+                    " ", "least", " ", "smallest", " ", "integer", " ", "to", 
+                    " ", 
+                    RowBox[{"dvaluelist", ".", " ", "That"}], " ", "there", 
+                    " ", "is", " ", "an", " ", "orderchange", " ", "is", " ", 
+                    "captured", " ", "by", " ", "setting", " ", "dordering"}],
+                     "=", 
+                    RowBox[{
+                    "1", " ", "and", " ", "we", " ", "store", " ", "the", " ",
+                     "graphnumber", " ", "n1", " ", "in", " ", 
+                    RowBox[{"changelist", ".", " ", "The"}], " ", "algorithm",
+                     " ", "is", " ", "stopped", " ", "by", " ", 
+                    RowBox[{"Break", "[", "]"}]}]}], ";"}]}], "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "roots", "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"First", "[", "roots", "]"}], "\[NotEqual]", 
+                    RowBox[{"{", "}"}]}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"drealvaluelist", ",", 
+                    RowBox[{"y", "/.", "roots"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"dvaluelist", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"y", "/.", "roots"}], "]"}], "]"}], "+", 
+                    "maxY"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"dchangelist", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"dordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<D-Orderchange for \>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", "drealvaluelist", "]"}], "]"}], "+", 
+                    "1", "+", "stabvalue"}], ",", "\"\< > x>=\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Min", "[", "drealvaluelist", "]"}], "]"}], "+", 
+                    "stabvalue"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "exact", " ", "method", " ", "was",
+                     " ", "interrupted", " ", "with", " ", "the", " ", "time",
+                     " ", "constraints", " ", "and", " ", "roots", " ", "are",
+                     " ", "found", " ", "with", " ", "the", " ", "numerical", 
+                    " ", "method"}], ",", " ", 
+                    RowBox[{
+                    "a", " ", "message", " ", "to", " ", "screen", " ", "is", 
+                    " ", "printed", " ", "togehter", " ", "with", " ", "the", 
+                    " ", "graphnumner", " ", "and", " ", "Dvalue", " ", "and",
+                     " ", "the", " ", 
+                    RowBox[{"roots", "."}]}]}], " ", "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"failed", "\[Equal]", "1"}], ",", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "Nroots", "]"}], ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Possible better design found with numerical method\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<graphnumber \>\"", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"dordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<Avalue: \>\"", ",", 
+                    RowBox[{"comparevalue", "[", "y", "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<NRoots :\>\"", ",", "Nroots"}], "]"}], 
+                    ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                 "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{"Case2", ":", " ", 
+                  RowBox[{
+                  "polD", " ", "has", " ", "mixed", " ", "coefficients"}]}], 
+                 "*)"}], "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", "<", "0"}]}]}], "]"}], "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"Cases", "[", 
+                    RowBox[{
+                    RowBox[{"CoefficientList", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], ",", 
+                    RowBox[{"x_", "/;", 
+                    RowBox[{"x", ">", "0"}]}]}], "]"}], "]"}], ">", "0"}]}], 
+                   ",", 
+                   RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "polynomial", " ", "polD", " ", 
+                    "is", " ", "not", " ", "constant"}], ",", " ", 
+                    RowBox[{
+                    "we", " ", "search", " ", "for", " ", "positive", " ", 
+                    "roots", " ", "using", " ", "exact", " ", 
+                    RowBox[{"methods", ".", " ", "This"}], " ", "is", " ", 
+                    "time", " ", "constrained", " ", "and", " ", "we", " ", 
+                    "switch", " ", "to", " ", "a", " ", "numerical", " ", 
+                    "search", " ", "which", " ", "will", " ", "throw", " ", 
+                    "a", " ", "message", " ", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"failed", "=", "1"}], ")"}], "."}]}]}], "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Exponent", "[", 
+                    RowBox[{"polD", ",", "y"}], "]"}], "\[GreaterEqual]", 
+                    "0"}], ",", 
+                    RowBox[{
+                    RowBox[{"failed", "=", "0"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"TimeConstrained", "[", 
+                    RowBox[{
+                    RowBox[{"roots", "=", 
+                    RowBox[{"Solve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polD", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y", ",", 
+                    "Reals"}], "]"}]}], ",", "300", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Nroots", "=", 
+                    RowBox[{"NSolve", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"polD", "\[Equal]", "0"}], "&&", 
+                    RowBox[{"y", "\[GreaterEqual]", "0"}]}], ",", "y"}], 
+                    "]"}]}], ",", 
+                    RowBox[{"failed", "=", "1"}]}], "}"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "roots", " ", "are", " ", "found", " ", "with",
+                     " ", "the", " ", "exact", " ", "method"}], ",", " ", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "then", " ", "we", " ", "add", " ", "the", " ", "root", 
+                    " ", "to", " ", "drealvaluelist", " ", "and", " ", "the", 
+                    " ", "least", " ", "smallest", " ", "integer", " ", "to", 
+                    " ", 
+                    RowBox[{"dvaluelist", ".", " ", "That"}], " ", "there", 
+                    " ", "is", " ", "an", " ", "orderchange", " ", "is", " ", 
+                    "captured", " ", "by", " ", "setting", " ", "dordering"}],
+                     "=", 
+                    RowBox[{
+                    "1", " ", "and", " ", "we", " ", "store", " ", "the", " ",
+                     "graphnumber", " ", "n1", " ", "in", " ", 
+                    RowBox[{"changelist", ".", " ", "The"}], " ", "algorithm",
+                     " ", "is", " ", "stopped", " ", "by", " ", 
+                    RowBox[{"Break", "[", "]"}]}]}], ";"}]}], "*)"}], 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "roots", "]"}], ">", "0"}], "&&", 
+                    RowBox[{
+                    RowBox[{"First", "[", "roots", "]"}], "\[NotEqual]", 
+                    RowBox[{"{", "}"}]}]}], ",", 
+                    RowBox[{
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"drealvaluelist", ",", 
+                    RowBox[{"y", "/.", "roots"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"dvaluelist", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"y", "/.", "roots"}], "]"}], "]"}], "+", 
+                    "maxY"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"dchangelist", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"dordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<D-Orderchange for \>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Max", "[", "drealvaluelist", "]"}], "]"}], "+", 
+                    "1", "+", "stabvalue"}], ",", "\"\< > x>=\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"Min", "[", "drealvaluelist", "]"}], "]"}], "+", 
+                    "stabvalue"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Break", "[", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    RowBox[{
+                    "If", " ", "the", " ", "exact", " ", "method", " ", "was",
+                     " ", "interrupted", " ", "with", " ", "the", " ", "time",
+                     " ", "constraints", " ", "and", " ", "roots", " ", "are",
+                     " ", "found", " ", "with", " ", "the", " ", "numerical", 
+                    " ", "method"}], ",", " ", 
+                    RowBox[{
+                    "a", " ", "message", " ", "to", " ", "screen", " ", "is", 
+                    " ", "printed", " ", "togehter", " ", "with", " ", "the", 
+                    " ", "graphnumner", " ", "and", " ", "Dvalue", " ", "and",
+                     " ", "the", " ", 
+                    RowBox[{"roots", "."}]}]}], " ", "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"failed", "\[Equal]", "1"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "Nroots", "]"}], ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", "[", 
+                    "\"\<Possible better design found with numerical method\>\
+\"", "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<graphnumber \>\"", ",", "n1"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"dordering", "=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<Dvalue: \>\"", ",", 
+                    RowBox[{"comparevalue", "[", "y", "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"Print", "[", 
+                    RowBox[{"\"\<NRoots :\>\"", ",", "Nroots"}], "]"}], 
+                    ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                  "\[IndentingNewLine]", "]"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+            "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"a1", "=", "a2"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"d1", "=", "d2"}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"aordering", "\[Equal]", "0"}], ",", 
+          RowBox[{"Print", "[", 
+           RowBox[{
+           "\"\<AOrdering stays the same for x>=\>\"", ",", "stabvalue"}], 
+           "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"dordering", "\[Equal]", "0"}], ",", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<DOrdering stays the same for x>=\>\"", ",", "stabvalue"}], 
+            "]"}], ";"}]}], "]"}], ";"}]}], "]"}]}], ";"}], "\n", "\n", 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{"CopyBestGraphs", "[", 
+     RowBox[{
+     "v_", ",", "degree_", ",", "optimality_", ",", "min_", ",", "max_"}], 
+     "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "i", ",", "j", ",", "orderfile", ",", "dir", ",", "$path", ",", 
+        "numbering", ",", "order", ",", "ordermax", ",", "SortRanking", ",", 
+        "maxgraphnumber", ",", "poslist", ",", "pos", ",", "position", ",", 
+        "adjacencylist", ",", "graphnumber", ",", "block", ",", "tmp", ",", 
+        "strGraphs"}], "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{"setting", " ", "all", " ", "directories"}], "*)"}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"$path", "=", "wdir"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SetDirectory", "[", "$path", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"v", "<", "10"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"file", "=", 
+           RowBox[{"dir", "<>", 
+            RowBox[{"ToString", "[", "0", "]"}], "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "3", "]"}], "<>", "\"\<.asc\>\""}]}]}], 
+         ",", 
+         RowBox[{
+          RowBox[{"dir", "=", 
+           RowBox[{"$path", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\</\>\"", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\</\>\""}]}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"file", "=", 
+           RowBox[{"dir", "<>", 
+            RowBox[{"ToString", "[", "v", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "degree", "]"}], "<>", "\"\<_\>\"", "<>", 
+            RowBox[{"ToString", "[", "3", "]"}], "<>", "\"\<.asc\>\""}]}], 
+          ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"!", 
+          RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+         "Print", "[", "\"\<Error: Directory does not exist\>\"", "]"}], ",", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"SetDirectory", "[", "dir", "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"numbering", "=", "0"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"orderfile", "=", 
+           RowBox[{
+            RowBox[{"ToString", "[", "optimality", "]"}], "<>", 
+            "\"\<valuesOrdered.txt\>\""}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"!", 
+             RowBox[{"FileExistsQ", "[", "orderfile", "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"Print", "[", 
+              RowBox[{
+              "\"\<Error: file \>\"", ",", "orderfile", ",", 
+               "\"\< does not exist\>\""}], "]"}], ";", 
+             RowBox[{"Break", "[", "]"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"CreateDirectory", "[", "\"\<Graphs/\>\"", "]"}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+               "FileExistsQ", "[", "\"\<AvaluesOrdered.txt\>\"", "]"}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"order", "=", 
+                RowBox[{"Flatten", "[", 
+                 RowBox[{"ReadList", "[", "orderfile", "]"}], "]"}]}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{
+                 "\"\<Error: file \>\"", ",", "orderfile", ",", 
+                  "\"\< not found in directory \>\""}], "]"}], ";", " ", 
+                RowBox[{"Break", "[", "]"}], ";"}]}], "\[IndentingNewLine]", 
+              "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"max", "<", 
+                RowBox[{"Length", "[", "order", "]"}]}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{"ordermax", "=", 
+                RowBox[{"Take", "[", 
+                 RowBox[{"order", ",", "max"}], "]"}]}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"ordermax", "=", "order"}], ";"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"min", ">", "1"}], ",", 
+               RowBox[{
+                RowBox[{"ordermax", "=", 
+                 RowBox[{"Drop", "[", 
+                  RowBox[{"ordermax", ",", 
+                   RowBox[{"min", "-", "1"}]}], "]"}]}], ";"}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"SortRanking", "=", 
+              RowBox[{"Sort", "[", "ordermax", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"maxgraphnumber", "=", 
+              RowBox[{"Max", "[", "ordermax", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"poslist", "=", 
+              RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"strGraphs", "=", 
+              RowBox[{"OpenRead", "[", "file", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"min", ">", "1"}], ",", 
+               RowBox[{
+                RowBox[{"Find", "[", 
+                 RowBox[{"strGraphs", ",", 
+                  RowBox[{"\"\<Graph \>\"", "<>", 
+                   RowBox[{"ToString", "[", 
+                    RowBox[{"min", "-", "1"}], "]"}], "<>", "\"\<:\>\""}]}], 
+                 "]"}], ";", "\n", "\t", 
+                RowBox[{"Print", "[", "\"\<Graph found\>\"", "]"}], ";"}]}], 
+              "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"block", "=", 
+              RowBox[{"Read", "[", 
+               RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";", 
+             RowBox[{"graphnumber", "=", 
+              RowBox[{"min", "-", "1"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"While", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"block", "\[NotEqual]", "\"\<EndOfFile\>\""}], "&&", 
+                RowBox[{"graphnumber", "<", 
+                 RowBox[{"maxgraphnumber", "+", "1"}]}]}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"While", "[", 
+                 RowBox[{
+                  RowBox[{"block", "\[NotEqual]", "\"\<Graph\>\""}], ",", 
+                  RowBox[{"block", "=", 
+                   RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}]}], "]"}], ";",
+                 "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"block", "\[Equal]", "\"\<Graph\>\""}], ",", 
+                  RowBox[{
+                   RowBox[{"graphnumber", "++"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"While", "[", 
+                    RowBox[{
+                    RowBox[{"block", "\[NotEqual]", "\"\<:\>\""}], ",", 
+                    RowBox[{
+                    RowBox[{"block", "=", 
+                    RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";"}]}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"pos", "=", 
+                    RowBox[{
+                    RowBox[{"Position", "[", 
+                    RowBox[{"ordermax", ",", "graphnumber"}], "]"}], "+", 
+                    "min", "-", "1"}]}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"AppendTo", "[", 
+                    RowBox[{"poslist", ",", "pos"}], "]"}], ";", 
+                   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Length", "[", "pos", "]"}], ">", "0"}], ",", 
+                    RowBox[{
+                    RowBox[{"position", "=", 
+                    RowBox[{"First", "[", 
+                    RowBox[{"First", "[", "pos", "]"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"adjacencylist", "=", 
+                    RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"j", "=", "1"}], ",", 
+                    RowBox[{"j", "<", 
+                    RowBox[{"v", "+", "1"}]}], ",", 
+                    RowBox[{"j", "++"}], ",", 
+                    RowBox[{
+                    RowBox[{"tmp", "=", 
+                    RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"While", "[", 
+                    RowBox[{
+                    RowBox[{"block", "\[NotEqual]", "\"\<:\>\""}], ",", 
+                    RowBox[{
+                    RowBox[{"block", "=", 
+                    RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";"}]}], 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"i", "=", "1"}], ",", 
+                    RowBox[{"i", "<", 
+                    RowBox[{"degree", "+", "1"}]}], ",", 
+                    RowBox[{"i", "++"}], ",", 
+                    RowBox[{
+                    RowBox[{"block", "=", 
+                    RowBox[{"Read", "[", 
+                    RowBox[{"strGraphs", ",", "Word"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"tmp", ",", "block"}], "]"}], ";"}]}], "]"}], ";",
+                     "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"adjacencylist", ",", "tmp"}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"ToExpression", "[", "tmp", "]"}], ">>>", 
+                    RowBox[{"\"\<Graphs/\>\"", "<>", 
+                    RowBox[{"ToString", "[", "optimality", "]"}], "<>", 
+                    "\"\<BestGraph\>\"", "<>", 
+                    RowBox[{"ToString", "[", "position", "]"}], "<>", 
+                    "\"\<.txt\>\""}]}], ";"}]}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", "]"}], ";"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]",
+               "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"Close", "[", "strGraphs", "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Print", "[", "\"\<Writing to file finished.\>\"", "]"}],
+              ";"}]}], "\[IndentingNewLine]", "]"}]}]}], 
+        "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.54842715285775*^9, 3.548427177791725*^9}, {
+   3.54842726387042*^9, 3.548427265604864*^9}, {3.548427314794202*^9, 
+   3.548427338316424*^9}, {3.557241774303181*^9, 3.5572418129427*^9}, {
+   3.558778972252805*^9, 3.558779061149924*^9}, {3.55878408242508*^9, 
+   3.55878412793842*^9}, {3.558784172177931*^9, 3.558784178314172*^9}, {
+   3.558784329798905*^9, 3.558784374717356*^9}, {3.559140333147855*^9, 
+   3.559140333616938*^9}, {3.559141192806219*^9, 3.559141199447659*^9}, {
+   3.561634370093994*^9, 3.561634381434344*^9}, {3.599912341417474*^9, 
+   3.5999123629957275`*^9}, {3.5999124431083536`*^9, 3.5999124635618134`*^9}, 
+   3.599912521572302*^9, {3.5999127278571095`*^9, 3.5999127781486664`*^9}, {
+   3.599912881396637*^9, 3.5999128818739758`*^9}, {3.5999130828400264`*^9, 
+   3.5999130834114294`*^9}, 3.599913786467375*^9, 3.599915701417085*^9, {
+   3.599915832703911*^9, 3.5999158632164493`*^9}, {3.5999161992449837`*^9, 
+   3.5999162023752084`*^9}, {3.599988749313315*^9, 3.5999887562722387`*^9}, {
+   3.5999888099602346`*^9, 3.5999888113522196`*^9}, {3.5999896324030175`*^9, 
+   3.599989689283266*^9}, {3.599989728304882*^9, 3.599989733702713*^9}, {
+   3.5999897671253614`*^9, 3.5999897800365405`*^9}, {3.5999900850213757`*^9, 
+   3.5999901100570927`*^9}, {3.6106242463936653`*^9, 
+   3.6106247097247868`*^9}, {3.6106247939343443`*^9, 3.610624883650062*^9}, {
+   3.610625226461753*^9, 3.610625227385438*^9}, {3.6106280687972307`*^9, 
+   3.610628205507166*^9}, {3.61062855523582*^9, 3.610628572657494*^9}, {
+   3.612432280683777*^9, 3.612432289698537*^9}, {3.612433035522149*^9, 
+   3.6124330368266172`*^9}, {3.612433187336403*^9, 3.6124332220802803`*^9}, 
+   3.612433395379075*^9, {3.612433452947061*^9, 3.6124334934385138`*^9}, {
+   3.612436785118102*^9, 3.612436825239463*^9}, {3.612436860252707*^9, 
+   3.612436964887615*^9}, {3.612437001443034*^9, 3.612437022850563*^9}, 
+   3.6124370624123297`*^9, {3.612437131546748*^9, 3.612437158596643*^9}, {
+   3.6124372559677057`*^9, 3.612437284744713*^9}, {3.612439030519663*^9, 
+   3.6124390400883017`*^9}, {3.612439136473873*^9, 3.6124391476011267`*^9}, {
+   3.612439193622398*^9, 3.612439197429837*^9}, {3.613645357738867*^9, 
+   3.613645364703627*^9}, {3.61478049495821*^9, 3.61478052408541*^9}, {
+   3.6147805934505253`*^9, 3.6147807924041853`*^9}, {3.61512243823377*^9, 
+   3.615122447909371*^9}, {3.616049986350423*^9, 3.616049989047024*^9}, {
+   3.6160501721170893`*^9, 3.616050247051537*^9}, {3.616050342234715*^9, 
+   3.616050586859288*^9}, {3.616050617121681*^9, 3.616051204869795*^9}, {
+   3.61605124949553*^9, 3.61605140069643*^9}, {3.6160514581753273`*^9, 
+   3.616051939721134*^9}, {3.616052105826632*^9, 3.616052280127985*^9}, {
+   3.616052313023979*^9, 3.6160523200900917`*^9}, {3.616052361407352*^9, 
+   3.616052534967411*^9}, {3.616060627283551*^9, 3.6160606293235283`*^9}, {
+   3.616060710535787*^9, 3.616060710869986*^9}, 3.616250402570484*^9, {
+   3.616250453293857*^9, 3.616250480168069*^9}, 3.616252125253187*^9, 
+   3.616425942949717*^9, 3.6164260706972733`*^9, {3.616426209565922*^9, 
+   3.616426242732678*^9}, {3.616426277138111*^9, 3.6164263091907787`*^9}, {
+   3.616426372121512*^9, 3.61642639854851*^9}, {3.6164264575114202`*^9, 
+   3.616426595056664*^9}, {3.6164266434947157`*^9, 3.616426661607903*^9}, {
+   3.616426694400154*^9, 3.6164266948436317`*^9}, {3.616662572593109*^9, 
+   3.616662718663294*^9}, 3.61666280316774*^9, {3.616662833703314*^9, 
+   3.616662901793097*^9}, {3.616662931874131*^9, 3.6166629832434177`*^9}, {
+   3.617545768756907*^9, 3.617545842888631*^9}, {3.6347622539229183`*^9, 
+   3.634762289988635*^9}, {3.6347623953136473`*^9, 3.63476239857444*^9}, {
+   3.6347624491753607`*^9, 3.634762450778221*^9}}]
+},
+WindowSize->{1280, 683},
+WindowMargins->{{-5, Automatic}, {Automatic, 4}},
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September 9, \
+2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 115674, 2397, 8825, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
